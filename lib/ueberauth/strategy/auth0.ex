@@ -90,12 +90,15 @@ defmodule Ueberauth.Strategy.Auth0 do
   defp fetch_user(conn, %{token: token} = client) do
     conn = put_private(conn, :auth0_token, token)
 
+    IO.inspect(client)
+
     case Client.get(client, "/userinfo") do
       {:ok, %Response{status_code: 401, body: _body}} ->
         set_errors!(conn, [error("token", "unauthorized")])
 
       {:ok, %Response{status_code: status_code, body: user}}
       when status_code in 200..399 ->
+        IO.inspect(user)
         put_private(conn, :auth0_user, user)
 
       {:error, %Response{body: body}} ->
