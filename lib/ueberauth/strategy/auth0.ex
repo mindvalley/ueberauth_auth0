@@ -118,6 +118,7 @@ defmodule Ueberauth.Strategy.Auth0 do
   """
   def credentials(conn) do
     token = conn.private.auth0_token
+    IO.inspect(token)
 
     scopes =
       (token.other_params["scope"] || "")
@@ -131,7 +132,7 @@ defmodule Ueberauth.Strategy.Auth0 do
       expires: token_expired(token),
       scopes: scopes,
       other: token.other_params
-    }
+    } |> IO.inspect
   end
 
   defp token_expired(%{expires_at: nil}), do: false
