@@ -55,7 +55,7 @@ defmodule Ueberauth.Strategy.Auth0 do
 
     client =
       apply(module, :get_token!, [
-        [code: code, redirect_uri: redirect_uri],
+        [grant_type: "authorization_code", code: code, redirect_uri: redirect_uri],
         [otp_app: option(conn, :otp_app)]
       ])
 
