@@ -40,7 +40,8 @@ defmodule Ueberauth.Strategy.Auth0 do
   def handle_request!(conn) do
     scopes = conn.params["scope"] || option(conn, :default_scope)
 
-    IO.inspect(conn)
+    IO.inspect(default_options())
+    IO.inspect(option(conn, :audience))
 
     opts =
       [scope: scopes]
