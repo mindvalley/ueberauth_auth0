@@ -45,6 +45,9 @@ defmodule Ueberauth.Strategy.Auth0 do
       |> Keyword.put(:redirect_uri, callback_url(conn))
       |> with_optional(:audience, conn)
 
+
+    IO.inspect(opts)
+
     module = option(conn, :oauth2_module)
 
     callback_url =
@@ -52,6 +55,8 @@ defmodule Ueberauth.Strategy.Auth0 do
         opts,
         [otp_app: option(conn, :otp_app)]
       ])
+
+    IO.inspect(callback_url)
 
     redirect!(conn, callback_url)
   end
