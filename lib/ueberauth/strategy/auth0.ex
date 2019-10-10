@@ -40,10 +40,12 @@ defmodule Ueberauth.Strategy.Auth0 do
   def handle_request!(conn) do
     scopes = conn.params["scope"] || option(conn, :default_scope)
 
+    IO.inspect(option(conn, :audience))
+
     opts =
       [scope: scopes]
       |> Keyword.put(:redirect_uri, callback_url(conn))
-      |> with_optional(:audience, conn)
+      |> put_optional(:audience, option(conn, :audience))
 
 
     IO.inspect(opts)
@@ -174,9 +176,8 @@ defmodule Ueberauth.Strategy.Auth0 do
     }
   end
 
-  defp with_optional(opts, key, conn) do
-    if option(conn, key), do: Keyword.put(opts, key, option(conn, key)), else: opts
-  end
+  defp put_optional(opts, key, nil), do: opts
+  defp put_optional(opts, key, value), do: Keyword.put(opts, key, value)
 
   defp option(conn, key) do
     Keyword.get(options(conn), key, Keyword.get(default_options(), key))
