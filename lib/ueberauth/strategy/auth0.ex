@@ -28,7 +28,8 @@ defmodule Ueberauth.Strategy.Auth0 do
   use Ueberauth.Strategy,
     uid_field: :sub,
     default_scope: "openid profile email",
-    oauth2_module: Ueberauth.Strategy.Auth0.OAuth
+    oauth2_module: Ueberauth.Strategy.Auth0.OAuth,
+    audience: nil
 
   alias OAuth2.{Client, Error, Response}
   alias Plug.Conn
@@ -177,7 +178,7 @@ defmodule Ueberauth.Strategy.Auth0 do
     }
   end
 
-  defp put_optional(opts, key, nil), do: opts
+  defp put_optional(opts, _key, nil), do: opts
   defp put_optional(opts, key, value), do: Keyword.put(opts, key, value)
 
   defp option(conn, key) do
